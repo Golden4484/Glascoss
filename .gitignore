@@ -5,3 +5,4 @@ build/
 run/
 *.log
 *.class
+.vscode/
