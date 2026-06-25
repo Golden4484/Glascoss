@@ -1,0 +1,102 @@
+plugins {
+    id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'maven-publish'
+    id 'java'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/glascoss.accesswidener")
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    shadow 'com.google.genai:google-genai:1.57.0'
+    shadow 'com.google.guava:guava:33.2.0-jre'
+    shadow 'com.google.code.gson:gson:2.11.0'
+
+    implementation 'com.google.genai:google-genai:1.57.0'
+    implementation 'com.google.guava:guava:33.2.0-jre'
+    implementation 'com.google.code.gson:gson:2.11.0'
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    withSourcesJar()
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    archiveClassifier.set("dev")
+    relocate 'com.google.gson', 'com.glascoss.shaded.gson'
+}
+
+remapJar {
+    dependsOn shadowJar
+    inputFile.set shadowJar.archiveFile
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+    manifest {
+        attributes([
+            "Implementation-Title"  : project.archives_base_name,
+            "Implementation-Version": project.version
+        ])
+    }
+}
+
+task deployMods(type: Copy) {
+    dependsOn remapJar
+    from remapJar.archiveFile
+    into System.getProperty("user.home") + "/.minecraft/mods"
+    doFirst {
+        delete fileTree(System.getProperty("user.home") + "/.minecraft/mods") {
+            include "glascoss-*.jar"
+        }
+    }
+}
+
+build.finalizedBy deployMods
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+    }
+}

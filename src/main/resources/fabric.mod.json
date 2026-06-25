@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "glascoss",
+  "version": "${version}",
+  "name": "Glascoss",
+  "description": "A GLaDOS-inspired AI entity that lives in your Minecraft world, controls it, builds, and talks to you.",
+  "authors": [
+    "JoaquimLegal"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "accessWidener": "glascoss.accesswidener",
+  "icon": "assets/glascoss/textures/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.glascoss.GlascossClient"
+    ],
+    "server": [
+      "com.glascoss.GlascossMod"
+    ],
+    "main": [
+      "com.glascoss.GlascossMod"
+    ]
+  },
+  "mixins": [
+    "glascoss.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "~1.20.1",
+    "java": ">=17"
+  }
+}
