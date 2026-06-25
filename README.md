@@ -148,4 +148,4 @@ Contributions are welcome. Open an issue or submit a pull request. This is a per
 
 MIT License — see [LICENSE](LICENSE) for details.
 
-Copyright (c) 2024 JoaquimLegal
+Copyright (c) 2026 JoaquimLegal
