@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Golden4484/Glascoss/main/src/main/resources/assets/glascoss/textures/icon.png">
-  <img alt="Glascoss" src="src/main/resources/assets/glascoss/textures/icon.png" width="128" align="right">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Golden4484/Glascoss/main/logo_glascoss.png">
+  <img alt="Glascoss" src="logo_glascoss.png" width="128" align="right">
 </picture>
 
 # Glascoss
